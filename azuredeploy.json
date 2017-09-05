@@ -86,7 +86,7 @@
   "variables": {
     "ubuntuOSVersion": "14.04.4-LTS",
     "location":  "[parameters('location')]",
-    "imageName": "nameCustomImage",
+    "imageName": "createfromansible",
     "publicIPAddressName": "[concat(parameters('customVmName'),'IP')]",
     "vmName": "[parameters('customVmName')]",
     "nicName": "[concat(parameters('customVmName'),'Nic')]",
