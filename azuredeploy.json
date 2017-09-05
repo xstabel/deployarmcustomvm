@@ -3,11 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "adminUsername": {
-      "type": "string",
-      "defaultValue": "cristest",
-      "metadata": {
-        "description": "User name for the Virtual Machine."
-      }
+      "type": "string"
     },
     "sshKeyData": {
       "type": "string",
