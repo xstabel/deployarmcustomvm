@@ -72,18 +72,7 @@
   "variables": {
     "ubuntuOSVersion": "14.04.4-LTS",
     "location": "[resourceGroup().location]",
-    "imageName": "nameCustomImage",
-    "publicIPAddressName": "[concat(parameters('customVmName'),'IP')]",
-    "vmName": "[parameters('customVmName')]",
-    "nicName": "[concat(parameters('customVmName'),'Nic')]",
-    "publicIPAddressType": "Dynamic",
-    "apiVersion": "2015-06-15",
     "networkSecurityGroupName": "networkSecurityGroup1",
-    "virtualNetworkName": "[concat(parameters('customVmName'),'vnet')]",
-    "subnet1Name": "[concat(parameters('customVmName'),'subnet1')]", 
-    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
-    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "apiVersion": "2015-06-15"
   },
   "resources": [    
