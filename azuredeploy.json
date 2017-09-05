@@ -101,22 +101,6 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Compute/images",
-      "apiVersion": "2016-04-30-preview",
-      "name": "[variables('imageName')]",
-      "location": "[variables('location')]",
-      "properties": {
-        "storageProfile": {
-          "osDisk": {
-            "osType": "[parameters('osType')]",
-            "osState": "Generalized",
-            "blobUri": "[parameters('osDiskVhdUri')]",
-            "storageAccountType": "Standard_LRS"
-          }
-        }
-      }
-    },
-    {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('networkSecurityGroupName')]",
