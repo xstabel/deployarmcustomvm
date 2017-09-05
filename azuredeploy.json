@@ -20,9 +20,9 @@
         "description": "DNS Label for the Public IP. Must be lowercase. It should match with the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$ or it will raise an error."
       }
     },
-     "customVmName": {
+     "location": {
       "type": "string",
-      "defaultValue": "sshvm",
+      "defaultValue": "West EU",
       "metadata": {
         "description": "This is the name of the your VM"
       }
@@ -71,7 +71,7 @@
   },
   "variables": {
     "ubuntuOSVersion": "14.04.4-LTS",
-    "location": "[resourceGroup().location]",
+    "location": "Western EU",
     "networkSecurityGroupName": "networkSecurityGroup1",
     "apiVersion": "2015-06-15"
   },
