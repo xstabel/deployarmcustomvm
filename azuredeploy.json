@@ -77,7 +77,7 @@
     },
     "location": {
           "type": "string",
-          "defaultValue": "Western EU",
+          "defaultValue": "westeurope",
           "metadata": {
               "description": "Location"
         }
