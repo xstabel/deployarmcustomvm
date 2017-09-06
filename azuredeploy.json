@@ -44,7 +44,7 @@
       "type": "string",
       "defaultValue": "myImage99",
       "metadata": {
-        "description": "This is the OS that your VM will be running"
+        "description": "This is the image name you have created"
       }
     },
     "vmSize": {
