@@ -92,7 +92,7 @@
     "publicIPAddressType": "Dynamic",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
-    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
     "apiVersion": "2015-06-15"
   },
   "resources": [
