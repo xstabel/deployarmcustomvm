@@ -20,13 +20,19 @@
       "metadata": {
         "description": "Uri of the your user image"
       }
-    },
-     "dnsLabelPrefix": {
+    },    
+    "virtualNetworkName": {
       "type": "string",
       "metadata": {
-        "description": "DNS Label for the Public IP. Must be lowercase. It should match with the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$ or it will raise an error."
+        "description": "Virtual Network where will be located the VM"
       }
-    },
+    },    
+     "subnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet name for the Public IP."
+      }
+    },    
      "customVmName": {
       "type": "string",
       "defaultValue": "sshvm",
@@ -39,10 +45,11 @@
       "defaultValue": "Linux",
       "metadata": {
         "description": "This is the OS that your VM will be running"
-      },
+      }
+    },
     "imageName": {
       "type": "string",
-      "defaultValue": "myImage99",
+      "defaultValue": "newImageAnsible",
       "metadata": {
         "description": "This is the image name you have created"
       }
@@ -67,20 +74,6 @@
         "description": "This is the size of your VM"
       }
       },
-        "addressPrefix": {
-          "type": "string",
-          "defaultValue": "10.0.0.0/16",
-          "metadata": {
-              "description": "This is the address Prefix for your vnet"
-        }
-    },
-    "subnet1Prefix": {
-          "type": "string",
-          "defaultValue": "10.0.0.0/24",
-          "metadata": {
-              "description": "This is the address Prefix for your vnet"
-        }
-    },
     "location": {
           "type": "string",
           "defaultValue": "westeurope",
@@ -97,37 +90,26 @@
     "vmName": "[parameters('customVmName')]",
     "nicName": "[concat(parameters('customVmName'),'Nic')]",
     "publicIPAddressType": "Dynamic",
-    "networkSecurityGroupName": "networkSecurityGroup1",
-    "virtualNetworkName": "[concat(parameters('customVmName'),'vnet')]",
-    "subnet1Name": "[concat(parameters('customVmName'),'subnet1')]", 
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
-    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
     "apiVersion": "2015-06-15"
   },
   "resources": [
     {
-      "apiVersion": "[variables('apiVersion')]",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[variables('networkSecurityGroupName')]",
+      "type": "Microsoft.Compute/images",
+      "apiVersion": "2016-04-30-preview",
+      "name": "[variables('imageName')]",
       "location": "[variables('location')]",
       "properties": {
-        "securityRules": [
-          {
-            "name": "ssh_rule",
-            "properties": {
-              "description": "Locks inbound down to ssh default port 22.",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "22",
-              "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 123,
-              "direction": "Inbound"
-            }
+        "storageProfile": {
+          "osDisk": {
+            "osType": "[parameters('osType')]",
+            "osState": "Generalized",
+            "blobUri": "[parameters('osDiskVhdUri')]",
+            "storageAccountType": "Standard_LRS"
           }
-        ]
+        }
       }
     },
     {
@@ -136,37 +118,7 @@
       "name": "[variables('publicIPAddressName')]",
       "location": "[variables('location')]",
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
-        "dnsSettings": {
-          "domainNameLabel":  "[parameters('dnsLabelPrefix')]"
-        }
-      }
-    },
-    {
-      "apiVersion": "[variables('apiVersion')]",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('virtualNetworkName')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
-      ],
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('addressPrefix')]"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('subnet1Name')]",
-            "properties": {
-              "addressPrefix": "[parameters('subnet1Prefix')]",
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
-              }              
-            }
-          }
-        ]
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
       }
     },
     {
@@ -175,8 +127,7 @@
       "name": "[variables('nicName')]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
       ],
       "properties": {
         "ipConfigurations": [
