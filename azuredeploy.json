@@ -39,7 +39,8 @@
       "defaultValue": "Linux",
       "metadata": {
         "description": "This is the OS that your VM will be running"
-      },
+      }
+    },
     "imageName": {
       "type": "string",
       "defaultValue": "myImage99",
