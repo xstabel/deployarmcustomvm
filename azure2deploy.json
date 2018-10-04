@@ -188,11 +188,5 @@
         }
       }
     }
-  ],
-    "outputs": {
-    "sshCommand": {
-      "type": "string",
-      "value": "[concat('ssh ', parameters('adminUsername'), '@', parameters('dnsLabelPrefix'), '.', variables('location'), '.cloudapp.azure.com')]"
-    } 
-  }
+  ]
 }
